@@ -1,0 +1,28 @@
+<div class="settings-container">
+  <form (ngSubmit)="submit(settingForm)" #settingForm="ngForm">
+    <div fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="10px">
+      <mat-form-field [fxFlex.lt-md]="100" [fxFlex.gt-md]="50" fxLayoutGap="10px">
+        <mat-icon matSuffix>account_circle</mat-icon>
+        <input autocomplete="name" type="text" placeholder="Name" matInput ngModel #name="ngModel" [(ngModel)]="userInfo.name" name="name">
+      </mat-form-field>
+      <mat-form-field [fxFlex.lt-md]="100" [fxFlex.gt-md]="50">
+        <mat-icon matSuffix>location_on</mat-icon>
+        <input type="text" autocomplete="off" placeholder="Address" matInput ngModel #address="ngModel" [(ngModel)]="userInfo.address" name="address" ngx-google-places-autocomplete [options]="{ types: [], componentRestrictions: { country: 'PK' } }" #placesRef="ngx-places" />
+      </mat-form-field>
+      
+    </div>
+    <div fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="10px">
+      <mat-form-field [fxFlex.lt-md]="100" [fxFlex.gt-md]="50">
+        <mat-icon matSuffix>email</mat-icon>
+        <input type="email" autocomplete="email" placeholder="Email" matInput ngModel #email="ngModel" [(ngModel)]="userInfo.email" name="email">
+      </mat-form-field>
+      <mat-form-field [fxFlex.lt-md]="100" [fxFlex.gt-md]="50" fxLayoutGap="10px">
+        <mat-icon matSuffix>lock</mat-icon>
+        <input autocomplete="current-password" type="password" placeholder="Password(write new password to change)" matInput ngModel #password="ngModel" name="password">
+      </mat-form-field>
+    </div>
+    <div fxFlex = "100">
+      <button type="submit" mat-raised-button color="primary">Save</button>
+    </div>
+  </form>
+</div>

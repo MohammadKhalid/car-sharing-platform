@@ -1,0 +1,82 @@
+@import '~_variables.scss';
+.form-container{
+	background-color: #f0f0f0;
+	/*display: flex;
+    flex-direction: column;*/
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: auto;
+}
+
+.searchbox{
+	height: 64px;
+	background-color: $primary;
+}
+.back-button{
+	margin-left:10px;
+	margin-right: 10px;
+	color: white;
+}
+.input-container{
+	height: 100%;
+	-webkit-box-flex: 1;
+	-ms-flex-positive: 1;
+	flex-grow: 1;
+	input{
+		height: 97%;
+		color: white;
+		border: none;
+		width: 100%;
+		background-color: transparent !important;;
+		&:focus{
+			outline-width: 0;
+		}
+	}
+	input::placeholder{
+		color: white;
+	}
+	input::-ms-input-placeholder { /* Internet Explorer 10-11 */
+	    color: white;
+	}
+
+	input::-ms-input-placeholder { /* Microsoft Edge */
+	    color: white;
+	}
+}
+
+@media (max-width: 599px){
+	.searchbox {
+		height: 56px;
+	}
+}
+
+.popular-car{
+	background-color: white;
+	margin: 1px 0px 0px 0px;
+	padding: 25px 15px;
+}
+
+.filters-container{
+	padding: 10px;
+	margin: 10px;
+	background-color: white;
+
+}
+.border-container{
+	padding: 10px;
+	border: 1px solid #dedede;
+	margin-top: 10px
+}
+
+.show-more{
+	color: blue; 
+	text-align: center;
+	padding: 20px;
+}
+.search-button{
+	background-color: $primary;
+	color: white;
+}

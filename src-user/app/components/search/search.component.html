@@ -1,0 +1,131 @@
+<div class="form-container">
+	<form (ngSubmit)="submit(filterForm)" #filterForm="ngForm">
+		<div class="searchbox" #searchContainer>
+			<div style="height: 100%;" fxLayout="row" fxLayoutAlign="center center">
+				<mat-icon class="back-button" routerLink="..">arrow_back</mat-icon>
+				<div class="input-container">
+					<input autocomplete="off" (focus)="scrollTo(searchContainer)" type="text" name="search" placeholder="Type to search" #search ngModel #search="ngModel" name="search">
+				</div>
+			</div>
+		</div>
+		<div *ngIf="!advanceSearch" fxLayout="column">
+			<a style="text-align: center; margin: 10px 0px;color: blue" (click)="advanceSearch = true;">ADVANCE SEARCH</a>
+			<div class="popular-car" *ngFor="let car of popularCars" fxLayout="row" fxLayoutAlign="start center">
+				<a routerLink="/dashboard/search-results" [queryParams]="{model: car.value}">{{car.name}}</a>
+				<div class="flex-spacer"></div>
+				<mat-icon>chevron_right</mat-icon>
+			</div>
+		</div>
+		<div *ngIf="advanceSearch">
+			<div class="filters" #stateContainer class="filters-container" fxLayout="column">
+				<mat-form-field class="border-container" fxFlex="100">
+					<mat-icon matSuffix>directions_car</mat-icon>
+					<input autocomplete="off" (focus)="scrollTo(stateContainer)" type="text" placeholder="Car Model" matInput [matAutocomplete]="areasAuto" ngModel #model="ngModel" name="model"
+					 [(ngModel)]="carModel" (ngModelChange)="filteredModels = filter(carModel)">
+					<mat-autocomplete #areasAuto="matAutocomplete">
+						<mat-optgroup *ngFor="let model of filteredModels" [label]="model.name">
+							<mat-option style="color:blue;" *ngFor="let option of model.value" [value]="option">
+								{{ option }}
+							</mat-option>
+						</mat-optgroup>
+					</mat-autocomplete>
+				</mat-form-field>
+				<mat-form-field class="border-container" fxFlex="100">
+					<mat-icon matSuffix>location_city</mat-icon>
+					<input #cityContainer (focus)="scrollTo(cityContainer)" type="text" placeholder="City" matInput [matAutocomplete]="citiesAuto" ngModel #city="ngModel" name="city" [(ngModel)]="cityText" (ngModelChange)="filteredCities = filter(cityText, cities)">
+					<mat-autocomplete #citiesAuto="matAutocomplete">
+						<mat-option *ngFor="let city of filteredCities" [value]="city" (onSelectionChange)="showArea(city)">
+							{{ city }}
+						</mat-option>
+					</mat-autocomplete>
+				</mat-form-field>
+				<mat-form-field *ngIf="citySelected" fxFlex="100" class="border-container">
+					<mat-icon matSuffix>place</mat-icon>
+					<input #areaContainer (focus)="scrollTo(areaContainer)" type="text" placeholder="Area" matInput [matAutocomplete]="areasAuto" ngModel #area="ngModel" name="area" [(ngModel)]="areaText" (ngModelChange)="filteredAreas = filter(areaText, areas[city])">
+					<mat-autocomplete #areasAuto="matAutocomplete">
+						<mat-option *ngFor="let area of filteredAreas" [value]="area">
+							{{ area }}
+						</mat-option>
+					</mat-autocomplete>
+				</mat-form-field>
+				<div fxFlex="100" class="border-container">
+					<div fxLayout="row" fxLayoutAlign="start center">
+						<span>Price Range</span>
+						<span fxFlex></span>
+						<mat-icon matSuffix>monetization_on</mat-icon>
+					</div>
+					<mat-form-field style="width:48%;">
+						<mat-select placeholder="Min" ngModel #minPrice="ngModel" name="minPrice">
+							<mat-option *ngFor="let price of prices" [value]="price">
+								{{ price }}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+					<mat-form-field style="width:48%;">
+						<mat-select placeholder="Max" ngModel #maxPrice="ngModel" name="maxPrice">
+							<mat-option *ngFor="let price of prices" [value]="price">
+								{{ price }}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div *ngIf="!showingMore" class="show-more" fxFlex="100" (click)="showingMore = true;">
+					+ Show More Filters
+				</div>
+				<div *ngIf="showingMore">
+					<div fxFlex="100" class="border-container">
+						<div fxLayout="row" fxLayoutAlign="start center">
+							<span>Model Year Range</span>
+							<span fxFlex></span>
+							<mat-icon matSuffix>event</mat-icon>
+						</div>
+						<mat-form-field style="width:48%;">
+							<mat-select placeholder="Min" ngModel #minModelNo="ngModel" name="minModelNo">
+								<mat-option *ngFor="let model of modelNos" [value]="model">
+									{{ model }}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+						<mat-form-field style="width:48%;">
+							<mat-select placeholder="Max" ngModel #maxModelNo="ngModel" name="maxModelNo">
+								<mat-option *ngFor="let model of modelNos" [value]="model">
+									{{ model }}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div #mileageContainer fxFlex="100" class="border-container">
+						<div fxLayout="row" fxLayoutAlign="start center">
+							<span>Mileage Range(KM)</span>
+							<span fxFlex></span>
+							<mat-icon matSuffix>av_timer</mat-icon>
+						</div>
+						<mat-form-field style="width:48%;">
+							<input autocomplete="off" (focus)="scrollTo(mileageContainer)" type="number" name="minMileage" placeholder="Min" matInput ngModel #minMileage="ngModel" name="minMileage">
+						</mat-form-field>
+						<mat-form-field style="width:48%;">
+							<input autocomplete="off" (focus)="scrollTo(mileageContainer)" type="number" name="minMileage" placeholder="Max" matInput ngModel #maxMileage="ngModel" name="maxMileage">
+						</mat-form-field>
+					</div>
+					<div class="border-container">
+						<div fxLayout="row" fxLayoutAlign="start center">
+							<span>Transmission</span>
+							<span fxFlex></span>
+							<mat-icon matSuffix>swap_calls</mat-icon>
+						</div>
+						<div fxLayout="row">
+							<mat-radio-group ngModel #transmission="ngModel" name="transmission">
+								<mat-radio-button value="Automatic">Automatic</mat-radio-button>
+								<mat-radio-button value="Manual">Manual</mat-radio-button>
+							</mat-radio-group>
+						</div>
+					</div>
+				</div>
+				<div *ngIf="showingMore" class="show-more" fxFlex="100" (click)="showingMore = false;">
+					+ Hide Extra Filters
+				</div>
+				<button class="search-button" mat-button fxFlex="100">Search</button>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,36 @@
+<div class="main-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h3>List of payments</h3>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <span style="color: white;">.</span>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="loading!=0" class="loading-container">
+        <mat-spinner [diameter]="50"></mat-spinner>
+      </div>
+      <div *ngFor="let payment of payments; let i = index" class="payment mat-elevation-z1" fxLayout="row" [ngClass]="{'warn': payment.image == '', 'accent': payment.image != ''}">
+        <div fxLayout="column" class="white-text">
+          <div class="date"> {{payment.date | date:'dd MMM yyyy'}} </div>
+          <div class="amount">Rs. {{payment.amount | number}} </div>
+        </div>
+        <span class="flex-spacer"></span>
+        <div>
+          <input [hidden]="true" type="file" id="file" (change)="handleFileInput($event.target.files)" #images>
+          <button (click)="images.click()" *ngIf="payment.screenshot == '' && !payment.hasPaid && !fileToUpload" mat-raised-button
+            color="accent">Select bill</button>
+          <button (click)="images.click()" *ngIf="payment.screenshot != '' && !payment.hasPaid && !fileToUpload" mat-raised-button
+            color="accent">Reupload bill</button>
+          <button (click)="uploadFile(payment.date, i)" *ngIf="!payment.hasPaid && fileToUpload" mat-raised-button color="">Start uploading</button>
+          <a *ngIf="!payment.hasPaid && payment.screenshot != ''" href="/api/invoice/download/{{payment._id}}" target="_blank">
+            <button mat-raised-button color="primary">Download Invoice</button>
+          </a>
+          <button *ngIf="payment.hasPaid" disabled mat-raised-button color="">Already Paid</button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

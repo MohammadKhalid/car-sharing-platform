@@ -1,0 +1,36 @@
+<mat-sidenav-container fxLayout="column" class="dashboard-container">
+	<mat-sidenav class="mat-elevation-z2" #sidenav [opened]="opened" [mode]="getMode(mediaChange)" [position]="getPosition(mediaChange)" >
+		<div class="sidenav-logo">
+			<mat-icon>person_outline</mat-icon>
+			<span style="text-shadow:1px 1px #000">{{user.name | titlecase }}</span>
+		</div>
+		<mat-nav-list class="min-width" >
+			<a mat-list-item routerLink="{{nav.url}}" *ngFor="let nav of navs">
+				<mat-icon mat-list-icon>{{nav.icon}}</mat-icon>
+				<p mat-line>{{nav.name}}</p>
+			</a>
+			<span class="flex-spacer"></span>
+			<a class="place-bottom" mat-list-item (click)="logout()">
+				<mat-icon mat-list-icon>exit_to_app</mat-icon>
+				<p mat-line>Logout</p>
+			</a>
+		</mat-nav-list>
+	</mat-sidenav>
+	<mat-sidenav-content class="dashboard-content">
+		<mat-toolbar class="mat-elevation-z1" color="primary">
+			<img routerLink="/home" class="logo" src="/assets/img/logo2.png" alt="">
+			{{title}}
+			<span class="flex-spacer"></span>
+			<!-- <a routerLink="/login">Login</a>
+			<a routerLink="/signup">Signup</a> -->
+			<!-- <a (click)="logout()">Signup</a> -->
+			<mat-icon routerLink="/search">search</mat-icon>
+			<mat-icon style="margin: 0px 10px;" fxShow [fxShow.gt-sm]="false" (click) = "opened = !opened">dehaze</mat-icon>
+		</mat-toolbar>
+		<router-outlet></router-outlet>
+		
+		<button routerLink="sell" class="sell-button" mat-fab color="primary" *ngIf="!isHiding()">
+			<mat-icon>add</mat-icon>
+		</button>
+	</mat-sidenav-content>
+</mat-sidenav-container>

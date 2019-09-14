@@ -1,0 +1,16 @@
+{
+  "background_color": "#fff",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "https://www.wheelink.com.pk/assets/img/172x172-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "name": "WheeLink",
+  "orientation": "portrait",
+  "short_name": "WheeLink",
+  "start_url": "/user",
+  "theme_color": "#bd081c"
+}

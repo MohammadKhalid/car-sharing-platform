@@ -1,0 +1,24 @@
+<mat-tab-group mat-scroll-y (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" class="home-tabs" mat-stretch-tabs
+[(selectedIndex)]="selectedIndex">
+  <mat-tab label="Home">
+    <ng-template mat-tab-label>
+      <mat-icon>home</mat-icon>
+      <div>Owned</div>
+    </ng-template>
+    <app-my-cars></app-my-cars>
+  </mat-tab>
+  <mat-tab label="Registered Cars">
+    <ng-template mat-tab-label>
+      <mat-icon>directions_car</mat-icon>
+      <div>Registered</div>
+    </ng-template>
+    <app-registered-cars></app-registered-cars>
+  </mat-tab>
+  <mat-tab label="Unregistered Cars">
+    <ng-template mat-tab-label>
+      <mat-icon>directions_car</mat-icon>
+      <div>Imported</div>
+    </ng-template>
+    <app-unregistered-cars></app-unregistered-cars>
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,184 @@
+<div class="main-container">
+	<div *ngIf="loading!=0" class="loading-container">
+		<mat-spinner [diameter]="50"></mat-spinner>
+	</div>
+	<div style="width: 100%;">
+		<ui-carousel [infinite]="true" [fade]="true" [autoPlay]="false" *ngIf="car.images.length > 0">
+			<ui-carousel-item *ngFor="let img of car.images" style="text-align: center; background-color: white">
+				<img style="max-width: 100%;;max-height: 100%;margin: 0px auto;" [ui-lazy-load]="'/uploads/'+img">
+			</ui-carousel-item>
+		</ui-carousel>
+	</div>
+	<div class="title-section">
+		<div fxLayout="row">
+			<div class="title">{{car.title}}</div>
+			<span class="flex-spacer"></span>
+		</div>
+		<div class="price">PKR
+			<span style="font-size: 20px; font-weight: 600">{{car.price/100000 | number:'2.2-2'}}</span> lac</div>
+		<div class="city">{{car.city}}</div>
+	</div>
+	<div class="detail-setion">
+		<div fxLayout="row" fxLayoutAlign="center center">
+			<div class="attribute border-right" fxFlex="25" fxLayout="column" fxLayoutAlign="center center">
+				<mat-icon>event</mat-icon>
+				<div>{{car.modelNo}}</div>
+			</div>
+			<div class="attribute border-right" fxFlex="25" fxLayout="column" fxLayoutAlign="center center">
+				<mat-icon>av_timer</mat-icon>
+				<div>{{car.mileage}}</div>
+			</div>
+			<div class="attribute border-right" fxFlex="25" fxLayout="column" fxLayoutAlign="center center">
+				<mat-icon>local_gas_station</mat-icon>
+				<div>{{car.engineType}}</div>
+			</div>
+			<div class="attribute" fxFlex="25" fxLayout="column" fxLayoutAlign="center center">
+				<mat-icon>swap_calls</mat-icon>
+				<div>{{car.transmission}}</div>
+			</div>
+		</div>
+	</div>
+	<div style="padding:10px;font-weight: 600; font-size: 18px;color: #5a6480">Sellers Comment</div>
+	<div class="seller-comment-section">
+		<p>
+			{{getText(car.description)}}
+			<span *ngIf="descLength == 100 && car.description && car.description.length > 250">...</span>
+		</p>
+
+
+
+		<div class="show-more" fxLayout="row" fxLayoutAlign="center center" (click)="showMore()" *ngIf="descLength == 100 && car.description && car.description.length > 250">
+			Show More
+			<i class="material-icons">arrow_drop_down</i>
+		</div>
+		<div class="show-more" fxLayout="row" fxLayoutAlign="center center" (click)="showLess()" *ngIf="descLength != 100">
+			Show Less
+			<i class="material-icons">arrow_drop_up</i>
+		</div>
+	</div>
+	<div class="detail-tabs">
+		<mat-tab-group mat-stretch-tabs>
+			<mat-tab label="Car Details">
+				<div fxLayout="row" class="row border-bottom">
+					<div fxFlex="50">
+						<div class="title">Engine Capacity</div>
+						<div class="value">{{car.engineCapacity}}cc</div>
+					</div>
+					<div fxFlex="50">
+						<div class="title">Registration City</div>
+						<div class="value">{{car.regCity}}</div>
+					</div>
+				</div>
+				<div fxLayout="row" class="row border-bottom">
+					<div fxFlex="50">
+						<div class="title">Body Type</div>
+						<div class="value">Hatchback</div>
+					</div>
+					<div fxFlex="50">
+						<div class="title">Exterior Color</div>
+						<div class="value">{{car.color}}</div>
+					</div>
+				</div>
+				<div fxLayout="row" class="row border-bottom">
+					<div fxFlex="50">
+						<div class="title">Assembly Type</div>
+						<div class="value">{{car.assembly}}</div>
+					</div>
+					<div fxFlex="50">
+						<div class="title">Last Updated</div>
+						<div class="value">14 April 2018</div>
+					</div>
+				</div>
+				<div fxLayout="row" class="row">
+					<div fxFlex="50">
+						<div class="title">Ad ID</div>
+						<div class="value">{{car._id}}</div>
+					</div>
+				</div>
+			</mat-tab>
+			<mat-tab label="Features" class="features">
+				<!-- <div fxLayout="row" class="row border-bottom">
+					<div *ngIf="car.features && car.features.indexOf('Air Bags') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-air-bag.svg">
+						<div class="feature">Air Bags</div>
+					</div>
+					<div *ngIf="car.features && car.features.indexOf('Air Conditioning') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-air-conditioning.svg">
+						<div class="feature">Air Conditioning</div>
+					</div>
+				</div>
+				<div fxLayout="row" class="row border-bottom">
+					<div *ngIf="car.features && car.features.indexOf('Power Windows') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-power-windows.svg">
+						<div class="feature">Power Windows</div>
+					</div>
+					<div *ngIf="car.features && car.features.indexOf('Power Steering') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-power-steering.svg">
+						<div class="feature">Power Steering</div>
+					</div>
+				</div>
+				<div fxLayout="row" class="row border-bottom">
+					<div *ngIf="car.features && car.features.indexOf('Power Locks') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-power-lock.svg">
+						<div class="feature">Power Locks</div>
+					</div>
+					<div *ngIf="car.features && car.features.indexOf('Keyless Entry') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-keyless-entry.svg">
+						<div class="feature">Keyless Entry</div>
+					</div>
+				</div>
+				<div fxLayout="row" class="row border-bottom">
+					<div *ngIf="car.features && car.features.indexOf('Power Mirrors') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-power-mirrors.svg">
+						<div class="feature">Power Mirrors</div>
+					</div>
+					<div *ngIf="car.features && car.features.indexOf('ABS') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-abs.svg">
+						<div class="feature">Abs</div>
+					</div>
+				</div>
+				<div fxLayout="row" class="row border-bottom">
+					<div *ngIf="car.features && car.features.indexOf('Navigation') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-navigation.svg">
+						<div class="feature">Navigation</div>
+					</div>
+					<div *ngIf="car.features && car.features.indexOf('AM/FM Radio') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-am-fm-radio.svg">
+						<div class="feature">AM/FM Radio</div>
+					</div>
+				</div>
+				<div fxLayout="row" class="row">
+					<div *ngIf="car.features && car.features.indexOf('Cd Player') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ico-feature-cd-player.svg">
+						<div class="feature">Cd Player</div>
+					</div>
+					<div *ngIf="car.features && car.features.indexOf('Dvd Player') >= 0" fxFlex="50" class="center-align">
+						<img src="https://lite2.pakwheels.com/app/v-1.3.2/assets/images/features/ic_dvd_player.png">
+						<div class="feature">Dvd Player</div>
+					</div>
+				</div> -->
+				<div fxLayout="row" class="row border-bottom" *ngFor = "let feature of features.LeftCol; let i = index">
+					<div fxFlex="50" class="center-align">
+						<img [src]="features.LeftCol[i].icon">
+						<div class="feature">{{features.LeftCol[i].name}}</div>
+					</div>
+					<div *ngIf = "features.RightCol[i]">
+						<img [src]="features.RightCol[i].icon">
+						<div class="feature">{{features.RightCol[i].name}}</div>
+					</div>
+				</div>
+			</mat-tab>
+		</mat-tab-group>
+	</div>
+	<div class="seller-detail-section">
+
+	</div>
+	<div style="margin-bottom: 200px;"></div>
+</div>
+<div class="call-seller" ngClass.gt-sm="pad-contact-panal" fxLayout="row">
+	<a class="contact-button" style="background-color: #4CAF50; color: white;" fxFlex mat-button *ngIf="car.uploadedBy" [href]="sanitize('tel:0' + car.uploadedBy.phone)"
+	 target="_blank">Call Seller</a>
+	<!-- <button href="sms:{{123}}-456-789-0" style="background-color: #2196F3; color: white;" fxFlex mat-raised-button>SMS Seller</button> -->
+	<a class="contact-button" style="background-color: #2196F3; color: white;" fxFlex mat-button *ngIf="car.uploadedBy" [href]="sanitize('sms:0' + car.uploadedBy.phone)"
+	 target="_blank">SMS Seller</a>
+</div>

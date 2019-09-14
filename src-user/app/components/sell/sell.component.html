@@ -1,0 +1,166 @@
+<div class="mat-elevation-z2 sell-container">
+    <form (ngSubmit)="submit(sellForm)" #sellForm="ngForm" autocomplete="off">
+    <div fxLayout="column">
+      <div fxFlex="100">
+        <input type="file" multiple accept="image/x-png,image/gif,image/jpeg" (change)="displayImages($event)" [hidden]="true" name="images" ngModel #imagesModel="ngModel" #images>
+        <div *ngIf = "files.length <= 0" class="upload-image">
+          <i class="material-icons" style="font-size:100px;" (click)="images.click()">add_a_photo</i>
+          <p>Upload Photos</p>
+        </div>
+        <div *ngIf="files.length > 0" class="uploaded-images" fxLayout="row" fxLayoutGap="10px">
+          <div style="min-width: 100px; height: 100px;" *ngFor="let file of files" class="uImageContainer" [ngStyle]="{'background-image': 'url(' + file + ')'}">
+            <!-- <img style="width:100px" *ngFor="let file of files" [src]="file"> -->
+          </div>
+          <i class="material-icons" style="font-size:100px;min-width: 100px; height: 100px;" (click)="images.click()">add_a_photo</i>
+        </div>
+      </div>
+      <div #titleScroller></div>
+      <mat-form-field>
+        <mat-icon matSuffix>local_offer</mat-icon>
+        <input (focus)="scrollTo(titleScroller)" autocomplete="nope" ngModel #title="ngModel" name="title" type="text" matInput placeholder="Title" required>
+      </mat-form-field>
+      <div #cityScroller></div>
+      <mat-form-field fxFlex="100">
+        <mat-icon matSuffix>location_city</mat-icon>
+        <input (focus)="scrollTo(cityScroller)" (blur)="showArea(city)" [autocomplete]="'nope'" placeholder="City" matInput [matAutocomplete]="citiesAuto" ngModel #city="ngModel" name="city" (ngModelChange)="filteredCities = filter(city.value, cities)" required>
+        <mat-autocomplete #citiesAuto="matAutocomplete">
+          <mat-option *ngFor="let city of filteredCities" [value]="city">
+            {{ city }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div #areaScroller></div>
+      <mat-form-field *ngIf="citySelected(city.value)" fxFlex="100">
+        <mat-icon matSuffix>place</mat-icon>
+        <input (focus)="scrollTo(areaScroller)" [autocomplete]="'nope'" type="text" placeholder="Area" matInput [matAutocomplete]="areasAuto" ngModel #area="ngModel" name="area" (ngModelChange)="filteredAreas = filter(area.value, areas[city.value])" required>
+        <mat-autocomplete #areasAuto="matAutocomplete">
+          <mat-option *ngFor="let area of filteredAreas" [value]="area">
+            {{ area }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div></div>
+      <mat-form-field>
+        <mat-icon matSuffix>directions_car</mat-icon>
+        <mat-select placeholder="Model No" ngModel #modelNo="ngModel" name="modelNo" required>
+          <mat-option *ngFor="let modelNo of modelNos" [value]="modelNo">
+            {{ modelNo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div #regCityScroller></div>
+      <mat-form-field fxFlex="100">
+        <mat-icon matSuffix>content_paste</mat-icon>
+        <input (focus)="scrollTo(regCityScroller)" [autocomplete]="'nope'" type="text" placeholder="Registration City" matInput [matAutocomplete]="regCitiesAuto" ngModel #regCity="ngModel" name="regCity"
+          (ngModelChange)="regFilteredCities = filter(regCity.value, cities)">
+        <mat-autocomplete #regCitiesAuto="matAutocomplete">
+          <mat-option *ngFor="let regCity of regFilteredCities" [value]="regCity">
+            {{ regCity }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div #mileageScroller></div>
+      <mat-form-field>
+        <mat-icon matSuffix>av_timer</mat-icon>
+        <input (focus)="scrollTo(mileageScroller)" autocomplete="nope" ngModel #mileage="ngModel" name="mileage" type="number" matInput placeholder="Mileage(km)" required>
+      </mat-form-field>
+      <div #colorScroller></div>
+      <mat-form-field>
+        <mat-icon matSuffix>color_lens</mat-icon>
+        <!-- <input (focus)="scrollTo(colorScroller)" autocomplete="nope" ngModel #color="ngModel" name="color" type="text" (click)="openDialog()" [(ngModel)]="colorModel" matInput placeholder="Color"> -->
+        <mat-select ngModel #colorSelect #color="ngModel" name="color" type="text" placeholder="Color">
+          <mat-option *ngFor="let color of colors" [value]="color">
+            <mat-icon *ngIf = "colorSelect.value!=color" [ngClass]="color">group_work</mat-icon>{{color}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div #priceScroller></div>
+      <mat-form-field>
+        <mat-icon matSuffix>monetization_on</mat-icon>
+        <input (focus)="scrollTo(priceScroller)" autocomplete="nope" ngModel #price="ngModel" name="price" type="number" matInput placeholder="Price(PKR)" required>
+      </mat-form-field>
+      <div #descScroller></div>
+      <mat-form-field>
+        <mat-icon matSuffix>description</mat-icon>
+        <textarea (focus)="scrollTo(descScroller)" ngModel #description="ngModel" name="description" matInput placeholder="Description"></textarea>
+      </mat-form-field>
+
+      <!-- <div class="radio-tag" fxLayout="row" style="margin-bottom: 5px;">
+        <span>Registration</span>
+        <span class="flex-spacer"></span>
+        <mat-icon>swap_calls</mat-icon>
+      </div>
+      <mat-radio-group ngModel #registration="ngModel" name="registration" class="radio-group" fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
+        <mat-radio-button color="primary" fxFlex="50" value="Registered">Registered</mat-radio-button>
+        <mat-radio-button color="primary" fxFlex="50" value="Unregistered">Unregistered</mat-radio-button>
+      </mat-radio-group> -->
+
+      <div class="divider">
+        <span>
+          Additional Information
+        </span>
+      </div>
+
+      <mat-form-field>
+        <mat-icon matSuffix>local_gas_station</mat-icon>
+        <mat-select ngModel #engineType="ngModel" name="engineType" placeholder="Engine Type" required>
+          <mat-option [value]="'Petrol'">Petrol</mat-option>
+          <mat-option [value]="'Diesel'">Diesel</mat-option>
+          <mat-option [value]="'Hybrid'">Hybrid</mat-option>
+          <mat-option [value]="'CNG'">CNG</mat-option>
+          <mat-option [value]="'LPG'">LPG</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div #engineCapacityScroller></div>
+      <mat-form-field>
+        <mat-icon matSuffix>flash_on</mat-icon>
+        <input (focus)="scrollTo(engineCapacityScroller)" autocomplete="nope" ngModel #engineCapacity="ngModel" name="engineCapacity" type="number" matInput placeholder="Engine Capacity">
+      </mat-form-field>
+
+      <div class="radio-tag" fxLayout="row" style="margin-bottom: 5px;">
+        <span>Transmission</span>
+        <span class="flex-spacer"></span>
+        <mat-icon>swap_calls</mat-icon>
+      </div>
+      <mat-radio-group ngModel #transmission="ngModel" name="transmission" class="radio-group" fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
+        <mat-radio-button color="primary" fxFlex="50" value="Automatic">Automatic</mat-radio-button>
+        <mat-radio-button color="primary" fxFlex="50" value="Manual">Manual</mat-radio-button>
+      </mat-radio-group>
+
+      <div class="radio-tag" fxLayout="row" style="margin-bottom: 5px;margin-top: 20px;">
+        <span>Assembly</span>
+        <span class="flex-spacer"></span>
+        <mat-icon>build</mat-icon>
+      </div>
+      <mat-radio-group ngModel #assembly="ngModel" name="assembly" class="radio-group" style="margin-bottom: 15px;" fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
+        <mat-radio-button color="primary" fxFlex="50" value="Local">Local</mat-radio-button>
+        <mat-radio-button color="primary" fxFlex="50" value="Imported">Imported</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field>
+        <mat-select ngModel #features="ngModel" name="features" placeholder="Features" multiple>
+          <mat-option [value]="'ABS'">ABS</mat-option>
+          <mat-option [value]="'Air Bags'">Air Bags</mat-option>
+          <mat-option [value]="'Air Conditioning'">Air Conditioning</mat-option>
+          <mat-option [value]="'Alloy Rims'">Alloy Rims</mat-option>
+          <mat-option [value]="'Cassette Player'">Cassette Player</mat-option>
+          <mat-option [value]="'Cd Player'">Cd Player</mat-option>
+          <mat-option [value]="'Cool Box'">Cool Box</mat-option>
+          <mat-option [value]="'Cruise Control'">Cruise Control</mat-option>
+          <mat-option [value]="'Dvd Player'">Dvd Player</mat-option>
+          <mat-option [value]="'FM/AM Radio'">FM/AM Radio</mat-option>
+          <mat-option [value]="'Immobilizer Key'">Immobilizer Key</mat-option>
+          <mat-option [value]="'Keyless Entry'">Keyless Entry</mat-option>
+          <mat-option [value]="'Navigation System'">Navigation System</mat-option>
+          <mat-option [value]="'Power Locks'">Power Locks</mat-option>
+          <mat-option [value]="'Power Mirrors'">Power Mirrors</mat-option>
+          <mat-option [value]="'Power Steering'">Power Steering</mat-option>
+          <mat-option [value]="'Power Windows'">Power Windows</mat-option>
+          <mat-option [value]="'Sun Roof'">Sun Roof</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary" [disabled]="sellForm.invalid || submitting">
+        Save <mat-spinner *ngIf = "submitting" [diameter]="20"></mat-spinner>
+      </button>
+    </div>
+  </form>
+</div>

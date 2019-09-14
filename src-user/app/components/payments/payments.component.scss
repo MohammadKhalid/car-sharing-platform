@@ -1,0 +1,28 @@
+@import '~_variables.scss';
+.main-container{
+    margin: 20px;
+}
+
+.payment{
+    margin: 10px;
+    padding: 10px;
+    border-radius: 2px;
+    .date{
+        font-size: 18px;
+        font-weight: 600;
+    }
+    .amount{
+        font-size: 14px;
+    }
+    .white-text{
+        color: white;
+    }
+}
+
+.accent{
+    background-color: #8BC34A;
+}
+
+.warn{
+    background-color: #FF5722;
+}

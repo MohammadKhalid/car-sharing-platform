@@ -1,0 +1,42 @@
+<div>
+  <div *ngIf="loading!=0" class="loading-container">
+    <mat-spinner [diameter]="50" ></mat-spinner>
+  </div>
+  <div fxLayout="column" fxLayoutGap="20px" *ngFor="let car of cars; let i = index">
+    <div (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" fxFlex="100" class="mat-elevation-z1 card">
+      <div fxLayout="row" routerLink="/dashboard/profile/{{car._id}}">
+        <!-- {{'uploads/' + car.images[0]}} -->
+        <div [ngStyle]="{'background-image': 'url(/uploads/' + car.images[0] + ')'}" class="thumbnail" fxFlex="120px">
+        </div>
+        <div fxFlex="100" class="content" fxLayout="column">
+          <div fxFlex="100" fxLayout="row">
+            <div class="title">{{car.title}}</div>
+            <div class="flex-spacer"></div>
+            <mat-icon color="warn" style="cursor: pointer;" (click) = "removeCar(car._id, i, $event)">delete</mat-icon>
+          </div>
+          <div class="vertical-spacer"></div>
+
+          <div class="location">
+            <span>{{car.area}}, </span>
+            <span>{{car.city}}</span>
+          </div>
+
+          <div class="props" fxFlex="100" fxLayout="row">
+            <span class="margin-right">{{car.modelNo}}</span> |
+            <span class="margin-right margin-left">{{car.mileage}}</span> |
+            <span class="margin-right margin-left">{{car.engineType}}</span>
+          </div>
+          <div class="vertical-spacer"></div>
+
+          <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
+            <span class="flex-spacer"></span>
+            <div class="price-units">PKR</div>
+            <div class="price">{{car.price/100000 | number:'2.2-2'}}</div>
+            <div class="price-units">lacs</div>
+          </div>
+          <div style="height:5px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+.title-section{
+	background-color: white;
+	border: 1px solid #dedede;
+	padding: 10px;
+	line-height: 1.4;
+	.title{
+		color: blue;
+		font-size: 20px;
+		font-weight: 600;
+	}
+	.price{
+		color: green;
+		font-size: 14px;
+	}
+	.city{
+		color: grey;
+		font-size: 14px;
+	}
+}
+
+.detail-setion{
+	background-color: white;
+	border: 1px solid #dedede;
+	padding: 10px 0px;
+	.attribute{
+		width: 25%;
+	}
+}
+.border-right{
+	border-right: 1px solid #cacaca;
+}
+.border-bottom{
+	border-bottom: 1px solid #cacaca;
+}
+
+.seller-comment-section{
+	background-color: white;
+	border: 1px solid #dedede;
+	padding: 10px;
+	.show-more{
+		border-top: 1px solid #cacaca;
+	    padding-top: 5px;
+	    color: blue;
+	    cursor: pointer;
+	}
+}
+
+.detail-tabs{
+	background-color: white;
+	border: 1px solid #dedede;
+	padding: 10px;
+	font-size: 14px;
+	margin-top: 10px;
+	.row{
+		padding: 10px 5px;
+		.title{
+			color: grey;
+			margin: 5px 0px;
+		}
+		.feature{
+			color: grey;
+			margin: 5px 0px;
+			display: inline-block;
+		}
+		img{
+			width: 20px;
+			margin-right: 5px;
+		}
+		.center-align{
+			display: flex;
+			align-items: center;
+		}
+	}
+}
+
+.call-seller{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-color: #FFB74D;
+	z-index: 2;
+}
+
+.pad-contact-panal{
+	padding-right: 275px;
+}
+::ng-deep .ui-carousel-item{
+  background: rgb(124, 124, 124) !important;
+}
+
+.contact-button{
+	border-radius: 0px;
+}

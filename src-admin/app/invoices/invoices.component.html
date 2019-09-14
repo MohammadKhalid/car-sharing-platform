@@ -1,0 +1,60 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Striped Table
+                        <span class="pull-right">
+                            <button (click) = "generateVisible = !generateVisible" class="btn btn-primary">Generate Invoices</button>
+                        </span>
+                    </h4>
+                    <p class="category">Here is a subtitle for this table</p>
+                </div>
+                <div class="content table-responsive table-full-width">
+                    <form *ngIf = "generateVisible" (ngSubmit)="submit(generateForm)" #generateForm="ngForm" class="col-xs-12">
+                        <div class="form-group">
+                            <label for="month">Month</label>
+                            <input required ngModel #month="ngModel" type="month" class="form-control datepicker" name="month" id="month" aria-describedby="emailHelp" placeholder="Enter Month">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input required ngModel #amount="ngModel" type="number" class="form-control" name="amount" id="amount" placeholder="Amount">
+                        </div>
+                        <button [disabled]="generateForm.invalid" type="submit" class="btn btn-success">Submit</button>
+                    </form>
+
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>User Id</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Screenshot</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of invoices">
+                                <td>{{row.user}}</td>
+                                <td>{{row.date | date:'MMM yyyy'}}</td>
+                                <td>Rs. {{row.amount | number}}</td>
+                                <td *ngIf = "!row.screenshot == ''">
+                                    <a href="/paidinvoices/{{row.screenshot}}" target="_blank">View</a>
+                                </td>
+                                <td *ngIf = "row.screenshot == ''">Not uploaded yet</td>
+                                <td *ngIf="!row.hasPaid">
+                                    <button (click)="confirmPayment(row)" class="btn btn-success">Confirm Payment</button>
+                                </td>
+                                <td *ngIf="row.hasPaid">
+                                    <button (click)="invalidatePayment(row)" class="btn btn-danger">Mark Unpaid</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

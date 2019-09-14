@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Striped Table</h4>
+                    <p class="category">Here is a subtitle for this table</p>
+                </div>
+                <div class="content table-responsive table-full-width">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of users">
+                                <td>{{row.name}}</td>
+                                <td>{{row.phone}}</td>
+                                <td>{{row.address}}</td>
+                                <td *ngIf="row.approved">
+                                    <button (click)="deactivate(row)" class="btn btn-danger">Deactivate</button>
+                                    <button (click)="loginAsUser(row)" class="btn btn-info">Login as {{row.name}}</button>
+                                </td>
+                                <td *ngIf="!row.approved">
+                                    <button (click)="activate(row)" class="btn btn-info">Activate</button>
+                                    <button (click)="loginAsUser(row)" class="btn btn-info">Login as {{row.name}}</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
