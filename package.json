@@ -50,7 +50,7 @@
     "ng2-img-max": "^2.1.18",
     "ngx-google-places-autocomplete": "^2.0.1",
     "ngx-owl-carousel": "^2.0.7",
-    "nodemailer": "^4.6.7",
+    "nodemailer": "^6.4.16",
     "phantomjs-prebuilt": "^2.1.16",
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",
